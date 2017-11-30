@@ -1,4 +1,5 @@
 const fs = require('fs')
+const db = require('../models')
 // this is using the keyword static
 // apiController.getHome
 
@@ -19,6 +20,16 @@ class apiController {
   }
   static aboutJSON (req, res) {
     res.send({message: 'here is some data about my site'})
+  }
+  static getPeople (req, res) {
+    db.people.find()
+      .exec((error, people) => {
+        if (error) {
+          res.status(422).send({error})
+        } else {
+          res.send(people)
+        }
+      })
   }
   static getPerson (req, res) {
     // should come from mongoDB

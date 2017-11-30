@@ -9,3 +9,7 @@ const personSchema = new Schema({
   age: Number,
   POB: String
 })
+
+let Person = mongoose.model('Person', personSchema)
+
+module.exports = { people: Person }

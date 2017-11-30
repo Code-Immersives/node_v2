@@ -1,7 +1,7 @@
 const express = require('express')
 const apiRouter = express.Router()
 // controller actions
-const { getHome, getAbout, postHome, aboutJSON, getPerson} = require('../controllers')
+const { getHome, getAbout, postHome, aboutJSON, getPerson, getPeople} = require('../controllers')
 
 // root route
 apiRouter.route('/')
@@ -15,7 +15,7 @@ apiRouter.route('/')
 apiRouter.get('/about', getAbout)
 
 apiRouter.get('/about.json', aboutJSON)
-
+apiRouter.get('/people', getPeople)
 apiRouter.get('/people/:id', getPerson)
 
 module.exports = apiRouter
