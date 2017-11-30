@@ -1,7 +1,9 @@
 const express = require('express')
 const apiRouter = express.Router()
+// controller actions
 const { getHome, getAbout, postHome, aboutJSON, getPerson} = require('../controllers')
 
+// root route
 apiRouter.route('/')
   .get(getHome)
   .post(postHome)

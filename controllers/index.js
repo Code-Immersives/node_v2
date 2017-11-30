@@ -1,4 +1,10 @@
 const fs = require('fs')
+// this is using the keyword static
+// apiController.getHome
+
+// not using the keyword static
+// let myObj = new apiController()
+// myObj.getHome
 
 class apiController {
   static getHome (req, res) {
@@ -16,7 +22,7 @@ class apiController {
   }
   static getPerson (req, res) {
     // should come from mongoDB
-    const people = { '1': {id: 1, name: 'Kevin', occupation: 'NBA Superstar', age: "I don't age"}}
+    const people = { '1': {id: 1, 'name': 'Kevin', occupation: 'NBA Superstar', age: "I don't age"}}
     // localhost:3000 / people / 1
     // error checking for data type
     if (typeof req.params.id === 'string') {
