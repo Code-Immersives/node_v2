@@ -1,16 +1,39 @@
 const fs = require('fs')
 const db = require('../models')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
 
 class apiController {
   static createPerson (req, res) {
-    let newPerson = new db.people(req.body)
-    newPerson.save((error) => {
-      if (error) {
-        res.status(422).send({error})
-      } else {
-        res.send({message: 'Successfully created a person!'})
+    console.log('create person', req.body)
+
+    let passReturn = passport.use(new LocalStrategy(
+      function (email, password, done) {
+        var newUser = new db.people()
+
+            // set the user's local credentials
+        newUser.local.email = req.body.email
+        newUser.local.password = newUser.generateHash(password)
+        console.log('new user', newUser)
+            // save the user
+        newUser.save(function (err) {
+          if (err) {
+            throw err
+          }
+          return done(null, newUser)
+        })
       }
-    })
+    ))
+    res.send(passReturn)
+    //
+    //
+    // newPerson.save((error) => {
+    //   if (error) {
+    //     res.status(422).send({error})
+    //   } else {
+    //     res.send({message: 'Successfully created a person!'})
+    //   }
+    // })
   }
   static getPeople (req, res) {
     db.people.find()
@@ -41,7 +64,7 @@ class apiController {
     let _id = req.params._id
     let updatedPerson = req.body
 
-    if (typeof(_id) === 'string' && Object.keys(updatedPerson).length > 0) {
+    if (typeof (_id) === 'string' && Object.keys(updatedPerson).length > 0) {
       db.people.findOneAndUpdate({ _id }, updatedPerson, {new: true})
         .exec((error, person) => {
           if (error) {
