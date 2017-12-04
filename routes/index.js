@@ -1,11 +1,14 @@
 const express = require('express')
 const apiRouter = express.Router()
 // controller actions
-const { createPerson, getPerson, getPeople} = require('../controllers')
+const { createPerson, getPerson, getPeople, updatePerson, deletePerson} = require('../controllers')
 
 apiRouter.route('/people')
   .get(getPeople)
   .post(createPerson)
-apiRouter.get('/people/:_id', getPerson)
+apiRouter.route('/people/:_id')
+  .get(getPerson)
+  .put(updatePerson)
+  .delete(deletePerson)
 
 module.exports = apiRouter
