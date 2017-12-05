@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 const bcrypt = require('bcrypt-nodejs')
 
 const personSchema = new Schema({
+<<<<<<< HEAD
   first_name: {type: String, required: true},
   last_name: {type: String, required: true},
   gender: {type: String, required: true},
@@ -33,5 +34,16 @@ personSchema.methods.validPassword = function (password) {
 }
 
 let Person = mongoose.model('person', personSchema)
+=======
+  first_name: String,
+  last_name: {type: String},
+  email: String,
+  gender: String,
+  age: Number,
+  POB: String
+})
+
+let Person = mongoose.model('Person', personSchema)
+>>>>>>> parent of d8d6a05... mongodb setup finished with CR done
 
 module.exports = { people: Person }
