@@ -1,62 +1,16 @@
 const fs = require('fs')
 const db = require('../models')
-<<<<<<< HEAD
-const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
 
 class apiController {
   static createPerson (req, res) {
-    console.log('create person', req.body)
-
-    let passReturn = passport.use(new LocalStrategy(
-      function (email, password, done) {
-        var newUser = new db.people()
-
-            // set the user's local credentials
-        newUser.local.email = req.body.email
-        newUser.local.password = newUser.generateHash(password)
-        console.log('new user', newUser)
-            // save the user
-        newUser.save(function (err) {
-          if (err) {
-            throw err
-          }
-          return done(null, newUser)
-        })
+    let newPerson = new db.people(req.body)
+    newPerson.save((error) => {
+      if (error) {
+        res.status(422).send({error})
+      } else {
+        res.send({message: 'created a person'})
       }
-    ))
-    res.send(passReturn)
-    //
-    //
-    // newPerson.save((error) => {
-    //   if (error) {
-    //     res.status(422).send({error})
-    //   } else {
-    //     res.send({message: 'Successfully created a person!'})
-    //   }
-    // })
-=======
-// this is using the keyword static
-// apiController.getHome
-
-// not using the keyword static
-// let myObj = new apiController()
-// myObj.getHome
-
-class apiController {
-  static getHome (req, res) {
-    res.send('<h1> YOU HIT THE ROOT PAGE </h1>')
-  }
-  static postHome (req, res) {
-    fs.writeFileSync('test.json', JSON.stringify(req.body), 'utf8')
-    res.send('data sent')
-  }
-  static getAbout (req, res) {
-    res.send('<h1>here is some data about my site</h1>')
-  }
-  static aboutJSON (req, res) {
-    res.send({message: 'here is some data about my site'})
->>>>>>> parent of d8d6a05... mongodb setup finished with CR done
+    })
   }
   static getPeople (req, res) {
     db.people.find()
@@ -84,7 +38,6 @@ class apiController {
       res.status(422).send({error: 'incorrect data type'})
     }
   }
-<<<<<<< HEAD
   static updatePerson (req, res) {
     let _id = req.params._id
     let updatedPerson = req.body
@@ -113,15 +66,6 @@ class apiController {
         }
       })
   }
-=======
-
->>>>>>> parent of d8d6a05... mongodb setup finished with CR done
 }
-
-// const apiControllerOBJ = {
-//   getHome: (request, response) => {
-//     response.send('<h1> YOU HIT THE ROOT PAGE </h1>')
-//   }
-// }
 
 module.exports = apiController
